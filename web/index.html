@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rearrange VMS</title>
+    <link rel="stylesheet" href="./lib/skeleton/normalize"/>
+    <link rel="stylesheet" href="./lib/skeleton/skeleton"/>
+</head>
+<body>
+    <h1>
+        Rearrange VMs
+    </h1>
+    <div>
+        <h2>Bitte wähle eine Datei aus:</h2>
+        <select id="auswahl_datei"></select>
+        <p>Oder lade hier eine Datei hoch:</p>
+        <input type="file">
+        <h2>Bitte gib die Anzahl der Hosts ein</h2>
+        <input id="Hosts" name="Hosts" type="number" value="">
+        <h2>Bitte gib die Host Größe ein:</h2>
+        <input id="HostSize" name="HostSize" type="number" value="">
+        <button id="rearrange" type="submit" value="senden">Rearrange VMs</button>
+        <h1>Das Ergebnis lautet:</h1>
+
+
+    </div>
+    <script type="text/javascript" src="../eel.js"></script>
+    <script>
+        eel.get_list_of_all_files()((files) => {
+            console.log(files);
+            var select = document.getElementById("auswahl_datei");
+            for(index in files) {
+                console.log(files[index]);
+                select.options[select.options.length] = new Option(files[index], index);
+            }
+        });
+    </script>
+
+</body>
+</html>
