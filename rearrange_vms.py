@@ -17,14 +17,13 @@ def extract_data(filename):
     return names, capacities
 
 
-def rearrange_vms(filename):
+def rearrange_vms(filename, number_of_hosts, host_capacity, desired_load):
     names = []
     weights = []
     names, weights = extract_data(filename)
     # Capacities of the hosts
     # Length of this list is the number of hosts
-    capacities_unedited = [2048, 2048, 2048, 2048, 2048, 2048]
-    desired_load = 0.96
+    capacities_unedited = [host_capacity] * number_of_hosts
     capacities = [int(x * desired_load) for x in capacities_unedited]
 
     data = {}
@@ -70,36 +69,33 @@ def rearrange_vms(filename):
     objective.SetMaximization()
 
     status = solver.Solve()
-
+    result = {}
     if status == pywraplp.Solver.OPTIMAL:
-        print("----------------------------New VM Distribution--------------------------")
-        print("VM Distirbution for" + filename)
-        print(f'Total packed value: {objective.Value()}')
         total_weight = 0
         assigned_vms = 0
         for b in data['all_bins']:
-            print(f'Host {b}')
+            host_result = {}
             bin_weight = 0
-
             for i in data['all_items']:
                 if x[i, b].solution_value() > 0:
-                    print(
-                        f"VM{i} RAM consumption: {data['weights'][i]} name of VM: {data['names'][i]}")
+                    host_result[f"{data['names'][i]}"] = data['weights'][i]
                     bin_weight += data['weights'][i]
                     assigned_vms += 1
-            print(f'Total Host RAM consumption: {bin_weight}/{str(capacities[b])}')
+            host_result["total_ram_consumption"] = f"{bin_weight}/{str(capacities[b])}"
+            host_result["capacity"] = data['bin_capacities'][b]
+            host_result["assigned_vms"] = assigned_vms
+            result[f"{b}"] = host_result
             total_weight += bin_weight
-        print(f'Total RAM consumption: {total_weight}')
-
+        result["total_ram_consumption"] = total_weight
         if not assigned_vms == len(data['names']):
-            print('Not all VMs have been assigned to a host')
+            result["status"] = "Not all VMs have been assigned to a host"
+            return result
         else:
-            print("---------------------------------------")
-            print(f'Assigned VMs: {assigned_vms}')
-            print(f'Total VMs: {len(data["names"])}')
-            print('All VMs are assigned to a host')
+            result["status"] = f"All {assigned_vms} VMs have been assigned to a host"
+            return result
     else:
         print('Unsolvable problem.')
+        result = {"status": "Unsolvable problem."}
+        return result
 
 
-rearrange_vms("../vms/vms.csv")
