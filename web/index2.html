@@ -24,8 +24,16 @@
   <body>
     <h1>Rearrange VMs</h1>
     <div class="auswahl_datei"></div>
-    <button>Rearrange VMs</button>
+    <button onclick="send_data()">Rearrange VMs</button>
     <script type="text/javascript" src="../eel.js"></script>
-    <script src="./script.js"></script>
+    <script>
+      function send_data() {
+        console.log("send_data");
+        eel.run_rearrange_vms("vms.csv",5, 2048, 0.9)((files) => {
+              console.log(files);
+          });
+}
+
+    </script>
   </body>
 </html>

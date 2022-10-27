@@ -15,11 +15,10 @@ def get_list_of_all_files():
 
 
 @eel.expose
-def run_rearrange_vms(path: str, number_of_hosts: int, host_capacity: int, desired_load: float) -> None:
-    path = "vms/"+path
-    rearrange_vms(path, number_of_hosts, host_capacity, desired_load)
+def run_rearrange_vms(path: str, number_of_hosts: int, host_capacity: int, desired_load: float) -> dict:
+    path = "vms/" + path
+    vm_distribution = rearrange_vms(path, number_of_hosts, host_capacity, desired_load)
+    return vm_distribution
 
 
-run_rearrange_vms("vms.csv", 5, 2048, 0.9)
-# Start the index2.html file
 eel.start("index.html")

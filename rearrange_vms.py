@@ -20,15 +20,26 @@ def extract_data(filename):
 def rearrange_vms(filename, number_of_hosts, host_capacity, desired_load):
     names = []
     weights = []
+    result = {}
     names, weights = extract_data(filename)
+    try:
+        number_of_hosts = int(number_of_hosts)
+        host_capacity = int(host_capacity)
+        desired_load = int(desired_load)
+        if desired_load > 100 or desired_load < 0 or host_capacity <= 0 or number_of_hosts <= 0:
+            result["status"] = "Invalid input"
+            return result
+    except ValueError:
+        print("Invalid input")
+        result["status"] = "Invalid input"
+        return result
     # Capacities of the hosts
     # Length of this list is the number of hosts
+    desired_load = desired_load / 100
     capacities_unedited = [host_capacity] * number_of_hosts
     capacities = [int(x * desired_load) for x in capacities_unedited]
 
-    data = {}
-    data['weights'] = weights
-    data['names'] = names
+    data = {'weights': weights, 'names': names}
     assert len(data['weights']) == len(data['names'])
     data['num_items'] = len(data['weights'])
     data['all_items'] = range(data['num_items'])
@@ -69,7 +80,7 @@ def rearrange_vms(filename, number_of_hosts, host_capacity, desired_load):
     objective.SetMaximization()
 
     status = solver.Solve()
-    result = {}
+
     if status == pywraplp.Solver.OPTIMAL:
         total_weight = 0
         assigned_vms = 0
@@ -81,21 +92,21 @@ def rearrange_vms(filename, number_of_hosts, host_capacity, desired_load):
                     host_result[f"{data['names'][i]}"] = data['weights'][i]
                     bin_weight += data['weights'][i]
                     assigned_vms += 1
-            host_result["total_ram_consumption"] = f"{bin_weight}/{str(capacities[b])}"
-            host_result["capacity"] = data['bin_capacities'][b]
-            host_result["assigned_vms"] = assigned_vms
+            host_result["ram_consumption"] = f"{bin_weight}/{str(capacities[b])} Gb"
+            host_result["utilization"] = f"{round(bin_weight / host_capacity * 100, 2)} %"
+            host_result["capacity"] = f"{data['bin_capacities'][b]} Gb"
             result[f"{b}"] = host_result
             total_weight += bin_weight
-        result["total_ram_consumption"] = total_weight
+        result["total_ram_consumption"] = f"{total_weight} Gb"
         if not assigned_vms == len(data['names']):
             result["status"] = "Not all VMs have been assigned to a host"
+            result["assigned_vms"] = assigned_vms
             return result
         else:
             result["status"] = f"All {assigned_vms} VMs have been assigned to a host"
+            print(result)
             return result
     else:
         print('Unsolvable problem.')
         result = {"status": "Unsolvable problem."}
         return result
-
-
