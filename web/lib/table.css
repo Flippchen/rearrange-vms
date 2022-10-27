@@ -37,5 +37,31 @@ caption {
     font-size: 1.5em;
     font-weight: bold;
     padding: 10px 0;
-    color: #555;
+    color: #262626;
+}
+body {
+    background-image: url("background-opacity.png");
+    background-repeat: no-repeat, repeat;
+    background-color: #cccccc;
+    background-size: cover;
+}
+p {
+    color: white;
+}
+h1 {
+    color: white;
+}
+h3 {
+    color: white;
+}
+h5  {
+    color: white;
+}
+button
+{
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
 }
