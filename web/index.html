@@ -13,21 +13,16 @@
     Rearrange VMs
 </h1>
 <div>
-    <h2>Bitte wähle eine Datei aus:</h2>
+    <h5>Bitte wähle eine Datei aus:</h5>
     <select id="auswahl_datei"></select>
-    <!--
-    TODO: File Upload#
-    <p>Oder lade hier eine Datei hoch:</p>
-    <input type="file">
-    -->
-    <h2>Bitte gib die Anzahl der Hosts ein</h2>
+    <h5>Bitte gib die Anzahl der Hosts ein</h5>
     <input id="Hosts" name="Hosts" type="number" value="">
-    <h2>Bitte gib die Host-Größe ein (Gb):</h2>
+    <h5>Bitte gib die Host-Größe ein (Gb):</h5>
     <input id="HostSize" name="HostSize" type="number" value="">
-    <h2>Bitte gib die gewünschte Auslastung in Prozent an (1-100):</h2>
+    <h5>Bitte gib die gewünschte Auslastung in Prozent an (1-100):</h5>
     <input id="Auslastung" name="Auslastung" type="number" step="0.01" value="">
     <button id="rearrange" type="submit" value="senden" onclick="get_data()">Rearrange VMs</button>
-    <h1>Das Ergebnis lautet:</h1>
+    <h3>Das Ergebnis lautet:</h3>
 </div>
 <script type="text/javascript" src="../eel.js"></script>
 <script>
@@ -51,9 +46,7 @@
         console.log(auslastung);
         send_data(path, hosts, hostsize, auslastung);
     }
-
 </script>
-<table id="table">
 </table>
 <script>
     function send_data(path, hosts, hostsize, utilization) {
