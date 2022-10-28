@@ -9,5 +9,11 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install ortools
 pip install ortools
 ```
 
-## Usage
-Execute the function 'rearrange_vms'. This loads the csv in the folder 'vms' and takes it as the basis for the calculation. In addition, the memory sizes of the hosts must be entered in 'rearrange.py'.
+## Console Usage
+Execute the function 'rearrange-vms-console'. This loads the csv in the folder 'vms' and takes it as the basis for the calculation. In addition, the memory sizes of the hosts must be entered in 'rearrange-vms-console.py'.
+
+## Web Usage
+```bash
+python3 main.py
+```
+Executes the function main. This loads the csv's in the folder 'vms' and takes it as the basis for the calculation.
