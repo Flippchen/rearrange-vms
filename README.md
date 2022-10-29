@@ -1,6 +1,6 @@
 # rearange-vms
 
-This is a simple script to rearrange VMs to multiple hosts according to their Storage use and the storage available on the hosts. This project is based on Google's solution to the [multidimensinal Knapsack problem](https://developers.google.com/optimization/bin/multiple_knapsack).
+This is a simple script to rearrange VMs to multiple hosts according to their storage use and the storage available on the hosts. The project is a variation of the multidimensional knapsack problem. For more information: [multidimensinal Knapsack problem](https://developers.google.com/optimization/bin/multiple_knapsack).
 
 ## Installation
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install ortools.
